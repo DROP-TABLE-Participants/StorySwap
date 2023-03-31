@@ -1,14 +1,33 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { GameLobby } from "./GameLobbyPage";
 
 export function GameSessionPage()
 {
     const params = useParams();
+    const game = {
+        state: 0,
+        pin: params.gamePin,
+    };
 
-    return (
-        <div className="container">
-           <h1>Game session pin: {params.gamePin}</h1>
-        </div>
-
-    );
+    if (game.state == 0)
+    {
+        return (
+            <GameLobby game={game}/>
+        );
+    }
+    else if (game.state == 1)
+    {
+        return (
+            //game started
+            <h1>Game Started</h1>
+        );
+    }
+    else(game.state == 2)
+    {
+        return (
+            //game finished
+            <h1>Game Finished</h1>
+        );
+    }
 }
