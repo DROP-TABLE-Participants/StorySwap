@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GameLobby } from "./GameLobbyPage";
+import { GameRunningPage } from "./GameRunningPage";
 
 export function GameSessionPage()
 {
     const params = useParams();
     const game = {
-        state: 0,
+        state: 1,
         pin: params.gamePin,
     };
 
@@ -19,8 +20,7 @@ export function GameSessionPage()
     else if (game.state == 1)
     {
         return (
-            //game started
-            <h1>Game Started</h1>
+            <GameRunningPage/>
         );
     }
     else(game.state == 2)
