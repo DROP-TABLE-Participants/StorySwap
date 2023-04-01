@@ -39,3 +39,7 @@ export const InputMain = tw.input`
     placeholder:text-white
     focus:outline-none
 `
+
+export const playerLobbyCard = tw.div`
+
+`
