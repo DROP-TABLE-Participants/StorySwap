@@ -12,14 +12,13 @@ export function GameProfilePage()
     const navigate = useNavigate();
     const [name, setName] = React.useState('');
     const [seed, setSeed] = React.useState(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
-    const location = useLocation();
-    const { gamePin } = location.state;
+    const gamePin = useLocation().pathname?.split('/game/')[1];
 
     const onReady = () => {
         socket.emit("ready", gamePin, `https://api.dicebear.com/6.x/micah/svg?seed=${seed}`, name);
         socket.on("user_ready", (...args) => {
              navigate(`/game/${gamePin}/lobby`, { state: { gamePin } })
-        })
+        });
     }
 
     return (

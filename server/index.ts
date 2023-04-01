@@ -11,6 +11,7 @@ import RoomsUsersStates from "./entities/RoomsUsersStates";
 import roomsController from "./routes/rooms";
 import {onCreate, onGameStart, onJoin} from "./routes/sockets";
 import ImageService from "./services/ImageService";
+import usersController from "./routes/users";
 
 const server = fastify({
     logger: true,
@@ -27,6 +28,7 @@ server.register(fastifyIO, {
 });
 
 server.register(roomsController, { prefix: "/rooms" });
+server.register(usersController, { prefix: "/users" });
 
 server.ready().then(() => {
     server.io.on("connection", async (socket) => {
@@ -96,7 +98,26 @@ server.ready().then(() => {
                 await AppDataSource.getRepository(User).save(newUser);
             }
 
-            server.io.to(roomId).emit("user_ready", {userId: socket.id});
+            server.io.to(roomId).emit("user_ready", {userId: socket.id, profileImage: profileImage, username: username});
+        });
+
+        socket.on("users_in_room", async (roomId: string) => {
+            const users = server.io.sockets.adapter.rooms.get(roomId);
+
+            if (!users) {
+                socket.emit("users_in_room", 0);
+            } else {
+                const objectUsers = Array.from(users).map(async (socketId: string) => {
+                    return await AppDataSource.getRepository(User).findOne({where: {userId: socketId}});
+                });
+
+                const usersArray = await Promise.all(objectUsers);
+
+                console.log(usersArray);
+
+                socket.emit("users_in_room", usersArray);
+            }
+
         });
 
     });

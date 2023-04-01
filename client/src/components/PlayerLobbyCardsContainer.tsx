@@ -6,9 +6,10 @@ export function PlayerLobbyCardsContainer({players}:any)
 {
     return (
          <ul className="w-80 divide-y items-center justify-center max-h-96 overflow-auto bg-white rounded-xl scrollbar-hide ">
-            {players.map((p: any) => (
-                <PlayerLobbyCard player={p}></PlayerLobbyCard>
-            ))}
+            {players.map((p: any) => {
+                return <PlayerLobbyCard player={p}></PlayerLobbyCard>
+            }
+            )}
          </ul>
     );
 }

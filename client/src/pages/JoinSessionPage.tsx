@@ -23,6 +23,16 @@ export function JoinSessionPage()
         })
     }
 
+    const createGame = () => {
+        //generate pin
+        const _gamePin = Math.floor(100000 + Math.random() * 900000).toString();
+
+        socket.emit("create", _gamePin);
+        socket.on("room_created", (...args) => {
+            navigate(`/game/${_gamePin}`, { state: { _gamePin } });
+        });
+    }
+
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
             <img src={logo} className="w-32 h-32" alt="logo" />
@@ -30,7 +40,7 @@ export function JoinSessionPage()
                 <InputMain placeholder="Enter Pin" value={gamePin} onChange={(e) => setName(e.target.value)} ></InputMain>
                 <ButtonMain onClick={joinGame}>Join</ButtonMain>
                 <a className=" text-2xl">or</a>
-                <ButtonSecondary  onClick={() => navigate(`/game/${gamePin}`)}>Create a game</ButtonSecondary>
+                <ButtonSecondary  onClick={createGame}>Create a game</ButtonSecondary>
             </div>
         </div>
 

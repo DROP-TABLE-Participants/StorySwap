@@ -13,10 +13,10 @@ export function PlayerLobbyCard({player}:any)
         <li className="p-3 sm:py-4 bg-zinc-950" onClick={ () => setButtonPopup(true)}>
             <div className="flex items-center space-x-4 ">
                 <div className="flex-shrink-0">
-                    <img src={`https://api.dicebear.com/6.x/micah/svg?seed=${seed}`} className=" w-12 h-12 rounded-full" alt="Avatar" />
+                    <img src={player.profileImage} className=" w-12 h-12 rounded-full" alt="Avatar" />
                 </div>
 
-                <h1 className="text-xl font-bold text-gray-900 text-black"> {player} </h1>
+                <h1 className="text-xl font-bold text-gray-900 text-black"> {player.username} </h1>
                 {/*<Popup trigger={buttonPopup} setTrigger={setButtonPopup}></Popup> */}
             </div>
         </li>   
