@@ -1,15 +1,11 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
-const roomsController = (server: FastifyInstance, opts: FastifyPluginOptions, done) => {
+const roomsController = (server: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
     server.get("/generate", (req, res) => {
         res.send("a")
     });
 
-    server.post("/connect", (req, res) => {
-        console.log(req.body);
 
-        server.io.in()
-    });
 
     done();
 }

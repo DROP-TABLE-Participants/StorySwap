@@ -18,6 +18,7 @@
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
     "engine.io": "^6.4.1",
     "engine.io-parser": "^5.0.6",
     "event-target-shim": "^5.0.1",
@@ -47,6 +48,7 @@
     "nodemon": "^2.0.22",
     "object-assign": "^4.1.1",
     "on-exit-leak-free": "^2.1.0",
+    "pg": "^8.10.0",
     "pino": "^8.11.0",
     "pino-abstract-transport": "^1.0.0",
     "pino-std-serializers": "^6.1.0",
@@ -73,6 +75,7 @@
     "split2": "^4.2.0",
     "thread-stream": "^2.3.0",
     "tiny-lru": "^10.3.0",
+    "typeorm": "^0.3.12",
     "typescript": "^5.0.3",
     "uri-js": "^4.4.1",
     "vary": "^1.1.2",
@@ -83,5 +86,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "imports": {
+    "@app/*": "./*"
+  }
 }
