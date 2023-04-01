@@ -3,17 +3,32 @@ import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo-black-and-white.svg';
 import { ButtonMain, ButtonSecondary, InputMain } from '../components/Base'
 
+import {socket} from "../main";
+
 export function JoinSessionPage()
 {
     const navigate = useNavigate();
     const [gamePin, setName] = React.useState('');
+
+    const joinGame = () => {
+        socket.emit("join", gamePin);
+        socket.on("user_joined", (...args) => {
+            navigate(`/game/${gamePin}`, { state: { gamePin } });
+        })
+        socket.on("user_already_in_room", (...args) => {
+            navigate(`/game/${gamePin}`, { state: { gamePin } });
+        })
+        socket.on("room_does_not_exist", (...args) => {
+            // MAKE BUTTON RED
+        })
+    }
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
             <img src={logo} className="w-32 h-32" alt="logo" />
             <div className="flex flex-col items-center justify-center gap-3 mt-16">
                 <InputMain placeholder="Enter Pin" value={gamePin} onChange={(e) => setName(e.target.value)} ></InputMain>
-                <ButtonMain onClick={() => navigate(`/game/${gamePin}`, { state: { gamePin } })}>Join</ButtonMain>
+                <ButtonMain onClick={joinGame}>Join</ButtonMain>
                 <a className=" text-2xl">or</a>
                 <ButtonSecondary  onClick={() => navigate(`/game/${gamePin}`)}>Create a game</ButtonSecondary>
             </div>

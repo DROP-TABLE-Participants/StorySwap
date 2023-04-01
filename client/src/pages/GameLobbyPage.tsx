@@ -13,14 +13,31 @@ export function GameLobby()
     const location = useLocation();
     const { gamePin } = location.state;
     const players = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 1", "Player 2", "Player 3", "Player 4", "Player 1", "Player 2", "Player 3", "Player 4"];
+    const [shouldDisplayPlayers, setShouldDisplayPlayers] = React.useState(true);
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
+        <div>
 
-            <PlayerLobbyCardsContainer players={players}></PlayerLobbyCardsContainer>
+            <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
 
-            <button className="w-72 h-16 text-2xl text-center text-black bg-white border-black border-4 rounded-md font-bold shadow-solid-primary absolute bottom-12" onClick={() => navigate(`/game/${gamePin}/lobby`)}>Ready</button>
+                {/*
+                <div className="tabs-container">
+                <div className="game-tab-button">Game</div>
+                </div>
+            */}
+                <div className="flex flex-row items-center justify-center gap-3 mt-16">
+                    <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Players</div>
+                    <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Game</div>
+                </div>
+                
+                <PlayerLobbyCardsContainer players={players}></PlayerLobbyCardsContainer>
+
+                <button className="w-72 h-16 text-2xl text-center text-black bg-white border-black border-4 rounded-md font-bold shadow-solid-primary absolute bottom-12" onClick={() => navigate(`/game/${gamePin}/lobby`)}>Ready</button>
+            </div>
+
         </div>
+
+        
 
     );
 }

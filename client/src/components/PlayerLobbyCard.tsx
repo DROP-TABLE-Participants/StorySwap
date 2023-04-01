@@ -17,7 +17,7 @@ export function PlayerLobbyCard({player}:any)
                 </div>
 
                 <h1 className="text-xl font-bold text-gray-900 text-black"> {player} </h1>
-                <Popup trigger={buttonPopup} setTrigger={setButtonPopup}></Popup>
+                {/*<Popup trigger={buttonPopup} setTrigger={setButtonPopup}></Popup> */}
             </div>
         </li>   
     );

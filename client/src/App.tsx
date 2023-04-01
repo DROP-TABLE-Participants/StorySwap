@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { JoinSessionPage } from './pages/JoinSessionPage'
 import { GameSessionPage } from './pages/GameSessionPage'
@@ -10,9 +7,9 @@ import { GameRound } from './pages/GameRoundPage'
 import { Routes, Route, Outlet, Link, BrowserRouter,  } from "react-router-dom";
 import { Page404 } from './pages/404'
 
-function App() {
-  const [count, setCount] = useState(0)
 
+
+function App() {
   return (
     <BrowserRouter>
       <Routes>
