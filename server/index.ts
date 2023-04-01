@@ -1,8 +1,10 @@
 import fastify from "fastify";
 import fastifyIO from "fastify-socket.io";
+import fastifyCors from "@fastify/cors";
 import AppDataSource from "./data-source";
 
 import Room from "./entities/Room";
+import User from "./entities/User";
 import RoomsUsersRoles from "./entities/RoomsUsersRoles";
 import RoomsUsersStates from "./entities/RoomsUsersStates";
 
@@ -41,10 +43,10 @@ server.ready().then(() => {
         });
 
         socket.on("createImage", async (prompt: string) => {
-            ImageService.generateFirstImage(prompt);
+            await ImageService.generateFirstImage(prompt);
         });
 
-        socket.on("ready", async (roomId: string) => {
+        socket.on("ready", async (roomId: string, profileImage: string, username: string) => {
             const room = await AppDataSource.getRepository(Room).findOne({where: {roomId: roomId}});
 
             if (!room) {
