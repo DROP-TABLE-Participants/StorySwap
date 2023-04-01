@@ -11,14 +11,15 @@ dotenv.config();
 
 const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
+    host: process.env.HOST,
+    port: parseInt(process.env.PORT ? process.env.PORT : "5432"),
     username: process.env.USER,
     password: process.env.PASSWORD,
-    database: "StorySwap",
+    database: process.env.DATABASE,
     entities: [Room, RoomsUsersRoles, RoomsUsersStates],
     synchronize: true,
     logging: false,
+    ssl: true,
     migrations: [
         "./migrations/**/*.js"
     ],

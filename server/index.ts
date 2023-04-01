@@ -8,6 +8,7 @@ import RoomsUsersStates from "./entities/RoomsUsersStates";
 
 import roomsController from "./routes/rooms";
 import {onCreate, onGameStart, onJoin} from "./routes/sockets";
+import ImageService from "./services/ImageService";
 
 const server = fastify({
     logger: true,
@@ -28,6 +29,10 @@ server.ready().then(() => {
 
         socket.on("start_game", async (roomId: string) => {
            await onGameStart(server, socket, roomId);
+        });
+
+        socket.on("createImage", async (prompt: string) => {
+            ImageService.generateFirstImage(prompt);
         });
 
         socket.on("ready", async (roomId: string) => {
