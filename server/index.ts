@@ -13,7 +13,16 @@ import ImageService from "./services/ImageService";
 const server = fastify({
     logger: true,
 });
-server.register(fastifyIO);
+server.register(fastifyCors, {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+});
+server.register(fastifyIO, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    },
+});
 
 server.register(roomsController, { prefix: "/rooms" });
 
@@ -75,7 +84,14 @@ server.ready().then(() => {
                 newRoomState.userId = socket.id;
                 newRoomState.state = "ready";
 
-                await AppDataSource.getRepository(RoomsUsersStates).save(newRoomState);
+                await AppDataSource.getRepository(RoomsUsersStates).save(newRoomState)
+
+                const newUser = new User();
+                newUser.profileImage = profileImage;
+                newUser.userId = socket.id;
+                newUser.username = username;
+
+                await AppDataSource.getRepository(User).save(newUser);
             }
 
             server.io.to(roomId).emit("user_ready", {userId: socket.id});
@@ -89,5 +105,3 @@ server.listen({
 });
 
 AppDataSource.initialize()
-
-

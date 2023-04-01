@@ -5,6 +5,8 @@ import changeSeedArrow from '../assets/reroll-arrow.svg';
 import { useLocation } from 'react-router-dom';
 import { ButtonMain } from "../components/Base";
 
+import { socket } from "../main";
+
 export function GameProfilePage()
 {
     const navigate = useNavigate();
@@ -12,6 +14,13 @@ export function GameProfilePage()
     const [seed, setSeed] = React.useState(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
     const location = useLocation();
     const { gamePin } = location.state;
+
+    const onReady = () => {
+        socket.emit("ready", gamePin, `https://api.dicebear.com/6.x/micah/svg?seed=${seed}`, name);
+        socket.on("user_ready", (...args) => {
+             navigate(`/game/${gamePin}/lobby`, { state: { gamePin } })
+        })
+    }
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
@@ -23,7 +32,7 @@ export function GameProfilePage()
                     <button className="w-14 h-14 text-2xl text-center text-black bg-white border-black border-4 rounded-md font-bold flex flex-row items-center justify-center" onClick={() => setSeed(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15))}><img src={changeSeedArrow}/></button>
                 </div>
             </div>
-            <ButtonMain className="w-72 h-16 absolute bottom-12" onClick={() => navigate(`/game/${gamePin}/lobby`, { state: { gamePin } })}>START</ButtonMain>
+            <ButtonMain className="w-72 h-16 absolute bottom-12" onClick={onReady}>START</ButtonMain>
         </div>
 
     );

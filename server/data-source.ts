@@ -4,6 +4,7 @@ import { DataSource } from "typeorm"
 import Room from "./entities/Room";
 import RoomsUsersRoles from "./entities/RoomsUsersRoles";
 import RoomsUsersStates from "./entities/RoomsUsersStates";
+import User from "./entities/User";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,7 +17,7 @@ const AppDataSource = new DataSource({
     username: process.env.USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
-    entities: [Room, RoomsUsersRoles, RoomsUsersStates],
+    entities: [Room, RoomsUsersRoles, RoomsUsersStates, User],
     synchronize: true,
     logging: false,
     ssl: true,
