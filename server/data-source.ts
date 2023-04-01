@@ -3,6 +3,7 @@ import { DataSource } from "typeorm"
 
 import Room from "./entities/Room";
 import RoomsUsersRoles from "./entities/RoomsUsersRoles";
+import RoomsUsersStates from "./entities/RoomsUsersStates";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -15,12 +16,13 @@ const AppDataSource = new DataSource({
     username: process.env.USER,
     password: process.env.PASSWORD,
     database: "StorySwap",
-    entities: [Room, RoomsUsersRoles],
+    entities: [Room, RoomsUsersRoles, RoomsUsersStates],
     synchronize: true,
     logging: false,
     migrations: [
         "./migrations/**/*.js"
     ],
+
 })
 
 export default AppDataSource;

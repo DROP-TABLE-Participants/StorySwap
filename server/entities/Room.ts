@@ -1,12 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import "reflect-metadata"
 
-import AppDataSource from "@app/data-source";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export default class Room {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({   unique: true })
     roomId: string;
 }
