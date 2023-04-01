@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo-black-and-white.svg';
 import changeSeedArrow from '../assets/reroll-arrow.svg';
 import { useLocation } from 'react-router-dom';
+import { ButtonMain } from "../components/Base";
 
 export function GameProfilePage()
 {
@@ -22,7 +23,7 @@ export function GameProfilePage()
                     <button className="w-14 h-14 text-2xl text-center text-black bg-white border-black border-4 rounded-md font-bold flex flex-row items-center justify-center" onClick={() => setSeed(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15))}><img src={changeSeedArrow}/></button>
                 </div>
             </div>
-            <button className="w-72 h-16 text-2xl text-center text-black bg-white border-black border-4 rounded-md font-bold shadow-solid-primary absolute bottom-12" onClick={() => navigate(`/game/${gamePin}/lobby`, { state: { gamePin } })}>START</button>
+            <ButtonMain className="w-72 h-16 absolute bottom-12" onClick={() => navigate(`/game/${gamePin}/lobby`, { state: { gamePin } })}>START</ButtonMain>
         </div>
 
     );

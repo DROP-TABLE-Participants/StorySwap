@@ -17,7 +17,7 @@ export function GameLobby()
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
             <div className="items-center justify-center max-h-96 whitespace-nowrap overflow-auto w-80 bg-white rounded-xl scroll-m-0 scrollbar-hide">
             {players.map(player => (
-                <div key={player} className="w-72 h-16 text-2xl flex flex-row items-center justify-center text-black bg-gray rounded-md font-bold m-4">
+                <div key={player} className="w-72 h-16 text-2xl flex flex-row items-center justify-center text-black bg-gray rounded-md font-bold m-4" onClick={_ =>{console.log(player)}}>
                     <div className="">
                         <img src={`https://api.dicebear.com/6.x/micah/svg?seed=${seed}`} className=" w-12 h-12 rounded-full bg-white border-2 -m-3" alt="logo" />
                         <a className="">
