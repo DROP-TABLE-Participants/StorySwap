@@ -18,6 +18,7 @@ function App() {
           <Route path="/" index element={<JoinSessionPage />} />
           <Route path="/game/:gamePin" index element={<GameProfilePage />} />
           <Route path="/game/:gamePin/lobby" index element={<GameLobby />} />
+          <Route path="/game/:gamePin/game" index element={<GameLobby />} />
           <Route path="*" element={<NoMatch />} />
       </Routes>
     </BrowserRouter>

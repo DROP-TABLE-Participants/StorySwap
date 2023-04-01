@@ -12,6 +12,7 @@ module.exports = {
       'bg-start': '#E18D44',
       'bg-end': '#A82551',
       'black': '#000000',
+      'gray': '#EBEBEB',
     },
   },
   plugins: [],
