@@ -5,6 +5,7 @@ import './App.css'
 import { JoinSessionPage } from './pages/JoinSessionPage'
 import { GameSessionPage } from './pages/GameSessionPage'
 import { Routes, Route, Outlet, Link, BrowserRouter,  } from "react-router-dom";
+import { Page404 } from './pages/404'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,9 +24,7 @@ function App() {
 function NoMatch()
 {
   return (
-    <div>
-      <h1>No such route :(</h1>
-    </div>
+    <Page404 />
   );
 }
 
