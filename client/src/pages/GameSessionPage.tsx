@@ -14,7 +14,7 @@ export function GameSessionPage()
     if (game.state == 0)
     {
         return (
-            <GameLobby game={game}/>
+            <></>
         );
     }
     else if (game.state == 1)
