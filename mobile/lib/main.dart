@@ -25,7 +25,7 @@ class _WebViewAppState extends State<WebViewApp> {
     super.initState();
     controller = WebViewController()
       ..loadRequest(
-        Uri.parse('https://foody.to'),
+        Uri.parse('https://storyswap.tech/'),
       );
   }
 
