@@ -170,7 +170,7 @@ server.ready().then(() => {
 
             await AppDataSource.getRepository(RoomsOrders).save(roomsOrders);
 
-            socket.emit("game_start");
+            server.io.in(roomId).emit("game_start");
 
             server.io.to(Array.from(ids)[0]).emit("to_draw");
 
