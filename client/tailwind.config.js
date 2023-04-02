@@ -18,6 +18,11 @@ module.exports = {
     fontFamily: {
       'nunito': ['Nunito', 'sans-serif']
     },
+    extend: {
+      colors: {
+        'dark-blue-text': '#170557',
+      },
+    },
   },
   plugins: [],
 }
