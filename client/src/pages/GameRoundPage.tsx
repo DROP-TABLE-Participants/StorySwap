@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { socket } from "../main";
 import waitingIcon from "../assets/waiting-icon.png";
 import theWizzard from "../assets/start-story-icon.png";
-import { InputMain, ButtonMain } from "../components/Base";
+import { InputMain, InputAreaMain, ButtonMain } from "../components/Base";
 
 export function GameRound()
 {
@@ -65,14 +65,14 @@ export function GameRound()
                         location.state.args?.length > 1 ?
                         <img src="" alt="img-inkomink" /> :
                         <>
-                            <img src={img.length > 0 ? img : theWizzard} alt="start-your-story" />
+                            <img src={img.length > 0 ? img : theWizzard} alt="start-your-story" className="w-60"/>
                             <h1 className="text-3xl font-nunito font-bold stroke-blue-700">Start your story</h1>
                         </>
                         }
 
-                        <InputMain value={input} onChange={(e) => setInput(e.target.value)}></InputMain>
+                        <InputAreaMain value={input} onChange={(e) => setInput(e.target.value)}></InputAreaMain>
 
-                        <ButtonMain onClick={onClick}>Done</ButtonMain>
+                        <ButtonMain onClick={onClick} className="absolute bottom-10">Done</ButtonMain>
                     </> :
                     <>
                         <img src={img.length > 0 ? img : waitingIcon} className="w-52" />
