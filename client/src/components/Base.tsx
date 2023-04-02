@@ -44,6 +44,22 @@ export const InputMain = tw.input`
     focus:outline-none
 `
 
+export const InputAreaMain = tw.textarea`
+    w-96
+    h-24
+    p-1
+    text-xl
+    text-left
+    font-nunito
+    font-bold 
+    border-4
+    border-white
+    rounded-md
+    bg-transparent
+    placeholder:text-white
+    focus:outline-none
+`
+
 export const playerLobbyCard = tw.div`
 
 `

@@ -65,7 +65,6 @@ export function GameLobby() {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
-
             {/*
             <div className="tabs-container">
             <div className="game-tab-button">Game</div>
