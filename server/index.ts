@@ -292,7 +292,7 @@ server.ready().then(() => {
 });
 
 server.listen({
-    port: parseInt(process.env.WEBSITEPORT || "3000")
+    port: parseInt(process.env.WEBSITEPORT || "8080")
 });
 
 AppDataSource.initialize()
