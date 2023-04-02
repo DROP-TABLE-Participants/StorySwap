@@ -288,6 +288,18 @@ server.ready().then(() => {
 
         });
 
+        socket.on("game_finished", async (roomId: string) => {
+            const entities = await AppDataSource
+                .getRepository(UserPrompts)
+                .find({
+                    where: {
+                        room: {roomId: roomId}
+                    }
+                })
+
+            server.io.to(socket.id).emit("game_finished", await Promise.all(entities));
+        })
+
     });
 });
 

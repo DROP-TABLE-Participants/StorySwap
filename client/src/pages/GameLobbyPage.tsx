@@ -58,33 +58,33 @@ export function GameLobby() {
         })
     });
 
+    socket.on("game_finished", () => {
+        navigate(`/game/${gamePin}/end`);
+    })
 
-        return (
 
-            <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
+    return (
+        <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
 
-                {/*
-                <div className="tabs-container">
-                <div className="game-tab-button">Game</div>
-                </div>
-            */}
-                <div className="flex flex-row items-center justify-center gap-3 mt-16">
-                    <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Players</div>
-                    <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Game</div>
-                </div>
-
-                <PlayerLobbyCardsContainer players={players}></PlayerLobbyCardsContainer>
-
-                {
-                    isUserAdmin ?
-                        <button disabled={!isGameReady}  onClick={onClick}> Start the game </button> :
-                        <p> Waiting for host to start the game.</p>
-                }
-
-                <GamePin gamePinProp={gamePin}></GamePin>
-
+            {/*
+            <div className="tabs-container">
+            <div className="game-tab-button">Game</div>
+            </div>
+        */}
+            <div className="flex flex-row items-center justify-center gap-3 mt-16">
+                <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Players</div>
+                <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Game</div>
             </div>
 
+            <PlayerLobbyCardsContainer players={players}></PlayerLobbyCardsContainer>
 
+            {
+                isUserAdmin ?
+                    <button disabled={!isGameReady}  onClick={onClick}> Start the game </button> :
+                    <p> Waiting for host to start the game.</p>
+            }
+
+            <GamePin gamePinProp={gamePin}></GamePin>
+        </div>
     );
 }
