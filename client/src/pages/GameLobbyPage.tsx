@@ -69,8 +69,8 @@ export function GameLobby() {
                 </div>
             */}
                 <div className="flex flex-row items-center justify-center gap-3 mt-16">
-                    <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Players</div>
-                    <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Game</div>
+                    <div className="bg-white text-2xl text-black font-bold py-2 px-5 rounded-tl-md rounded-tr-md">Players</div>
+                    <div className="bg-white text-2xl text-black font-bold py-2 px-5 rounded-tl-md rounded-tr-md opacity-50">Game</div>
                 </div>
 
                 <PlayerLobbyCardsContainer players={players}></PlayerLobbyCardsContainer>
