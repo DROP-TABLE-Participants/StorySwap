@@ -4,7 +4,7 @@ import App from './App'
 import './index.css'
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:8080");
+export const socket = io("https://storyswap.azurewebsites.net");
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
