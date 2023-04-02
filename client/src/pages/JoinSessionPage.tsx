@@ -38,7 +38,7 @@ export function JoinSessionPage()
             <img src={logo} className="w-32 h-32" alt="logo" />
             <div className="flex flex-col items-center justify-center gap-3 mt-16">
                 <InputMain placeholder="Enter Pin" value={gamePin} onChange={(e) => setName(e.target.value)} ></InputMain>
-                <ButtonMain onClick={joinGame}>Join</ButtonMain>
+                <ButtonMain onClick={joinGame}>JOIN</ButtonMain>
                 <a className=" text-2xl">or</a>
                 <ButtonSecondary  onClick={createGame}>Create a game</ButtonSecondary>
             </div>

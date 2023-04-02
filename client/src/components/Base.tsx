@@ -11,7 +11,8 @@ export const ButtonMain = tw.button`
     border-black
     border-4
     rounded-md
-    font-bold
+    font-nunito
+    font-black
     shadow-solid-primary
 `
 
@@ -24,14 +25,17 @@ export const ButtonSecondary = tw.button`
     border-white
     rounded-md
     bg-transparent
-    font-bold
+    font-nunito
+    font-black
 `
 
 export const InputMain = tw.input`
     w-64
     h-14
-    text-2xl
+    text-xl
     text-center
+    font-nunito
+    font-bold 
     border-4
     border-white
     rounded-md

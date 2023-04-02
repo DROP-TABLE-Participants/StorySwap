@@ -14,6 +14,10 @@ module.exports = {
       'black': '#000000',
       'gray': '#EBEBEB',
     },
+    extend:{},
+    fontFamily: {
+      'nunito': ['Nunito', 'sans-serif']
+    },
   },
   plugins: [],
 }
