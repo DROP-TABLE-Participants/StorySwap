@@ -53,9 +53,7 @@ export default class ImageService {
 
     const responseJSON = (await response.json()) as GenerationResponse;
 
-    responseJSON.artifacts.forEach((image) => {
-      FileService.uploadImage(Buffer.from(image.base64, "base64"));
-    });
+    return (await FileService.uploadImage(Buffer.from(responseJSON.artifacts[0].base64, "base64"))).path;
   }
 
   static async generateSecondImages(prevPrompt: string, prompt: string) {
@@ -104,8 +102,6 @@ export default class ImageService {
 
     const responseJSON = (await response.json()) as GenerationResponse;
 
-    responseJSON.artifacts.forEach((image) => {
-      FileService.uploadImage(Buffer.from(image.base64, "base64"));
-    });
+    return (await FileService.uploadImage(Buffer.from(responseJSON.artifacts[0].base64, "base64"))).path;
   }
 }

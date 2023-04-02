@@ -14,6 +14,7 @@ export function JoinSessionPage()
         socket.emit("join", gamePin);
         socket.on("user_joined", (...args) => {
             navigate(`/game/${gamePin}`, { state: { gamePin } });
+            sessionStorage.setItem("userState", "")
         })
         socket.on("user_already_in_room", (...args) => {
             navigate(`/game/${gamePin}`, { state: { gamePin } });

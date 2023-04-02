@@ -85,6 +85,7 @@ export const onJoin = async (socket: Socket, roomId: string) => {
 
     socket.join(roomId);
     socket.emit("user_joined");
+    socket.emit("can_not_start_game");
 }
 
 export const onGameStart = async (server: FastifyInstance, socket: Socket, roomId: string) => {

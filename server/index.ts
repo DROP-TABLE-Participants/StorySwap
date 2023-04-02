@@ -12,6 +12,8 @@ import roomsController from "./routes/rooms";
 import {onCreate, onGameStart, onJoin} from "./routes/sockets";
 import ImageService from "./services/ImageService";
 import usersController from "./routes/users";
+import RoomsOrders from "./entities/RoomsOrders";
+import UserPrompts from "./entities/UserPrompts";
 
 const server = fastify({
     logger: true,
@@ -49,6 +51,7 @@ server.ready().then(() => {
         });
 
         socket.on("ready", async (roomId: string, profileImage: string, username: string) => {
+            console.log("self");
             const room = await AppDataSource.getRepository(Room).findOne({where: {roomId: roomId}});
 
             if (!room) {
@@ -117,6 +120,175 @@ server.ready().then(() => {
 
                 socket.emit("users_in_room", usersArray);
             }
+
+        });
+
+        socket.on("start_game", async (roomId: string) => {
+            const room = await AppDataSource.getRepository(Room).findOne({where: {roomId: roomId}});
+
+            if (!room) {
+                socket.emit("room_does_not_exist");
+                return;
+            }
+
+            // const isUserAdmin = !!(await AppDataSource
+            //     .getRepository(RoomsUsersRoles)
+            //     .findOne({
+            //         where: {
+            //             type: "admin",
+            //             room: {roomId: roomId},
+            //             userId: socket.id
+            //         }
+            //     }));
+            //
+            // if (!isUserAdmin) {
+            //     socket.emit("insufficient_rights");
+            //     return;
+            // }
+
+            const readyUsers = await AppDataSource
+                .getRepository(RoomsUsersStates)
+                .find({
+                    where: {
+                        room: {roomId: roomId},
+                        state: "ready"
+                    }
+                });
+
+            if (readyUsers.length != server.io.sockets.adapter.rooms.get(roomId)?.size) {
+                server.io.to(roomId).emit("can_not_start_game");
+                return;
+            }
+
+            // Shuffle
+            let ids = server.io.sockets.adapter.rooms.get(roomId);
+
+            if (!ids) {
+                console.log("ok");
+                return;
+            }
+
+            const roomsOrders = new RoomsOrders();
+            roomsOrders.order = Array.from(ids);
+            roomsOrders.room = room;
+
+            await AppDataSource.getRepository(RoomsOrders).save(roomsOrders);
+
+            socket.emit("game_start");
+
+            server.io.to(Array.from(ids)[0]).emit("to_draw");
+
+            const newIds = Array.from(ids);
+            newIds.shift();
+
+            newIds?.forEach(id => {
+                server.io.to(id).emit("to_wait");
+            });
+        });
+
+        socket.on("create_image", async (roomId: string, prompt: string) => {
+            const roomExists = await AppDataSource
+                .getRepository(RoomsOrders)
+                .exist({
+                    where: {
+                        room: {roomId: roomId}
+                    }
+                });
+
+            if (!roomExists) {
+                socket.emit("room_does_not_exist");
+                return;
+            }
+
+            const rounds = await AppDataSource
+                .getRepository(UserPrompts)
+                .find({
+                    where: {
+                        room: {roomId: roomId}
+                    }
+                })
+
+            const roomOrder = await AppDataSource
+                .getRepository(RoomsOrders)
+                .findOne({
+                    where: {
+                        room: {roomId: roomId}
+                    }
+                });
+
+            if (!roomOrder) {
+                socket.emit("game_has_not_started");
+                return;
+            }
+
+            const round = rounds ? (rounds.length + 1) : 1;
+
+            if (roomOrder.order[round - 1] !== socket.id) {
+                socket.emit("insufficient_rights");
+                return;
+            }
+
+            let imageName = "";
+
+            try {
+                if (round == 1) {
+                    imageName = await ImageService.generateFirstImage(prompt);
+                } else {
+                    const prevPrompt = await AppDataSource
+                        .getRepository(UserPrompts)
+                        .findOne({
+                            where: {
+                                room: {roomId: roomId},
+                                order: round
+                            }
+                        })
+
+                    if (!prevPrompt) {
+                        return;
+                    }
+
+                    imageName = await ImageService.generateSecondImages(prevPrompt.prompt, prompt);
+                }
+            } catch (e) {
+                console.log(e);
+                socket.emit("try_another_prompt");
+                return;
+            }
+
+            const room = await AppDataSource.getRepository(Room).findOne({where: {roomId: roomId}});
+            const user = await AppDataSource.getRepository(User).findOne({where: {userId: socket.id}});
+
+            if (!room) {
+                return;
+            }
+
+            if (!user) {
+                return;
+            }
+
+            const newUserPrompt = new UserPrompts();
+            newUserPrompt.room = room;
+            newUserPrompt.prompt = prompt;
+            newUserPrompt.order = round + 1;
+            newUserPrompt.user = user;
+            newUserPrompt.url = "https://storyswap.blob.core.windows.net/images/" + imageName;
+
+            await AppDataSource.getRepository(UserPrompts).save(newUserPrompt);
+
+            server.io.to(roomOrder?.order[round - 1]).emit("generation_finished", newUserPrompt.url);
+
+            if (round === roomOrder?.order.length) {
+                socket.emit("game_finished");
+                return;
+            } else {
+                socket.emit("round_finished");
+            }
+
+            server.io.to(roomOrder?.order[round]).emit("to_draw");
+
+            roomOrder?.order.filter((el, idx) => idx !== round).forEach(el => {
+                server.io.to(el).emit("to_wait");
+            })
 
         });
 
