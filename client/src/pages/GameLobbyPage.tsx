@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams  } from "react-router-dom";
 import logo from '../assets/logo-black-and-white.svg';
 import changeSeedArrow from '../assets/reroll-arrow.svg';
 import { useLocation } from 'react-router-dom';
 import { PlayerLobbyCardsContainer } from "../components/PlayerLobbyCardsContainer";
+import { GamePin } from "../components/GamePin"
 
 import { socket } from "../main";
 
@@ -15,7 +16,7 @@ export function GameLobby() {
     const [players, setPlayers]:any = useState([]);
     const [isGameReady, setIsGameReady] = useState(false);
 
-    const { gamePin } = location.state;
+    const { gamePin } = useParams() ;
 
     const isUserAdmin = sessionStorage.getItem("userType") == "admin";
 
@@ -62,6 +63,11 @@ export function GameLobby() {
                         <button disabled={!isGameReady}> Start the game </button> :
                         <p> Waiting for host to start the game.</p>
                 }
+
+                <GamePin gamePinProp={gamePin}></GamePin> 
+
             </div>
+
+            
     );
 }
