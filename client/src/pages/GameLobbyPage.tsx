@@ -7,15 +7,25 @@ import { PlayerLobbyCardsContainer } from "../components/PlayerLobbyCardsContain
 
 import { socket } from "../main";
 
-export function GameLobby()
-{
+export function GameLobby() {
     const navigate = useNavigate();
-    const [name, setName] = React.useState('');
-    const [seed, setSeed] = React.useState(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
     const location = useLocation();
-    const { gamePin } = location.state;
+
+    const [seed, setSeed] = React.useState(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
     const [players, setPlayers]:any = useState([]);
-    const [shouldDisplayPlayers, setShouldDisplayPlayers] = React.useState(true);
+    const [isGameReady, setIsGameReady] = useState(false);
+
+    const { gamePin } = location.state;
+
+    const isUserAdmin = sessionStorage.getItem("userType") == "admin";
+
+    socket.on("can_start_game", () => {
+        setIsGameReady(true);
+    });
+
+    socket.on("can_not_start_game", () => {
+        setIsGameReady(false);
+    });
 
     useEffect(() => {
         socket.emit("users_in_room", gamePin);
@@ -26,11 +36,7 @@ export function GameLobby()
 
     socket.on("user_ready", async (args) => {
         // fetch user data from api
-        console.log(args);
-
         const newPlayers = players.concat(args);
-
-        console.log(newPlayers)
 
         setPlayers(newPlayers);
     });
@@ -48,10 +54,14 @@ export function GameLobby()
                     <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Players</div>
                     <div className="bg-white text-2xl text-black font-bold py-3 px-5 rounded-tl-md rounded-tr-md">Game</div>
                 </div>
-                
+
                 <PlayerLobbyCardsContainer players={players}></PlayerLobbyCardsContainer>
 
-                <button className="w-72 h-16 text-2xl text-center text-black bg-white border-black border-4 rounded-md font-bold shadow-solid-primary absolute bottom-12" onClick={() => navigate(`/game/${gamePin}/lobby`)}>Ready</button>
+                {
+                    isUserAdmin ?
+                        <button disabled={!isGameReady}> Start the game </button> :
+                        <p> Waiting for host to start the game.</p>
+                }
             </div>
     );
 }
