@@ -43,22 +43,23 @@ export function GameLobby() {
     });
 
     const onClick = () => {
-        if (!isGameReady) return;
-
-        socket.emit("start_game", gamePin);
-        socket.on("game_start", () => {
-            socket.on("to_draw", (...args) => {
-               navigate(`/game/${gamePin}/round`, {state: {draw: true, args: args}});
-            });
-
-            socket.on("to_wait", () => {
-                navigate(`/game/${gamePin}/round`, {state: {draw: false}});
-            })
-        });
-
+        if (isGameReady) {
+            socket.emit("start_game", gamePin);
+        }
     };
 
-    return (
+    socket.on("game_start", () => {
+        socket.on("to_draw", (...args) => {
+            navigate(`/game/${gamePin}/round`, {state: {draw: true, args: args}});
+        });
+
+        socket.on("to_wait", () => {
+            navigate(`/game/${gamePin}/round`, {state: {draw: false}});
+        })
+    });
+
+
+        return (
 
             <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
 
