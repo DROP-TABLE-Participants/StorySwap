@@ -1,25 +1,22 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { socket } from "../main";
 
 export function GameRound()
 {
     const params = useParams();
-    const [shouldType, setShouldType] = React.useState(false);
-
-    socket.on("to_type", async (arg) => {
-        setShouldType(arg);
-    });
+    const location = useLocation();
+    const [shouldType, setShouldType] = React.useState(location.state.draw);
 
     return(
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
 
             {shouldType === null ? <div className="loading">Loading...</div> :
-            
+
             <>
                 <div className="top-section">
                     <h1 className="round-text">Round {params.round}</h1>
-    
+
                     <div className="clock">clok</div>
                 </div>
 
@@ -31,15 +28,15 @@ export function GameRound()
                         <input type="text" name="" id="" />
 
                         <button className="done">Done</button>
-                    </> : 
+                    </> :
                     <>
                         <h1 className="text">Waiting for other player to finish...</h1>
                     </>
                     }
-        
+
                 </div>
             </>
-        
+
         }
         </div>
     );

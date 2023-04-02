@@ -14,10 +14,11 @@ export function JoinSessionPage()
         socket.emit("join", gamePin);
         socket.on("user_joined", (...args) => {
             navigate(`/game/${gamePin}`, { state: { gamePin } });
-            sessionStorage.setItem("userState", "")
+            sessionStorage.setItem("userType", "user");
         })
         socket.on("user_already_in_room", (...args) => {
             navigate(`/game/${gamePin}`, { state: { gamePin } });
+            sessionStorage.setItem("userType", "user");
         })
         socket.on("room_does_not_exist", (...args) => {
             // MAKE BUTTON RED
@@ -31,6 +32,7 @@ export function JoinSessionPage()
         socket.emit("create", _gamePin);
         socket.on("room_created", (...args) => {
             navigate(`/game/${_gamePin}`, { state: { _gamePin } });
+            sessionStorage.setItem("userType", "admin");
         });
     }
 

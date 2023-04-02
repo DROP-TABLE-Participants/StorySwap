@@ -42,6 +42,22 @@ export function GameLobby() {
         setPlayers(newPlayers);
     });
 
+    const onClick = () => {
+        if (!isGameReady) return;
+
+        socket.emit("start_game", gamePin);
+        socket.on("game_start", () => {
+            socket.on("to_draw", (...args) => {
+               navigate(`/game/${gamePin}/round`, {state: {draw: true, args: args}});
+            });
+
+            socket.on("to_wait", () => {
+                navigate(`/game/${gamePin}/round`, {state: {draw: false}});
+            })
+        });
+
+    };
+
     return (
 
             <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-bg-start to-bg-end">
@@ -60,14 +76,14 @@ export function GameLobby() {
 
                 {
                     isUserAdmin ?
-                        <button disabled={!isGameReady}> Start the game </button> :
+                        <button disabled={!isGameReady}  onClick={onClick}> Start the game </button> :
                         <p> Waiting for host to start the game.</p>
                 }
 
-                <GamePin gamePinProp={gamePin}></GamePin> 
+                <GamePin gamePinProp={gamePin}></GamePin>
 
             </div>
 
-            
+
     );
 }

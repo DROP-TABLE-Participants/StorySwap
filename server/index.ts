@@ -51,7 +51,6 @@ server.ready().then(() => {
         });
 
         socket.on("ready", async (roomId: string, profileImage: string, username: string) => {
-            console.log("self");
             const room = await AppDataSource.getRepository(Room).findOne({where: {roomId: roomId}});
 
             if (!room) {
@@ -68,10 +67,11 @@ server.ready().then(() => {
                     }
                 });
 
+            console.log(readyUsers.length);
+            console.log(server.io.sockets.adapter.rooms.get(roomId)?.size);
 
-            if (readyUsers.length == server.io.sockets.adapter.rooms.get(roomId)?.size) {
+            if (readyUsers.length + 1 == server.io.sockets.adapter.rooms.get(roomId)?.size) {
                 server.io.to(roomId).emit("can_start_game");
-                return;
             }
 
             if (await AppDataSource.getRepository(RoomsUsersStates).findOne({where:{room: {roomId: roomId}, userId: socket.id}})) {
@@ -116,11 +116,8 @@ server.ready().then(() => {
 
                 const usersArray = await Promise.all(objectUsers);
 
-                console.log(usersArray);
-
                 socket.emit("users_in_room", usersArray);
             }
-
         });
 
         socket.on("start_game", async (roomId: string) => {
@@ -164,7 +161,6 @@ server.ready().then(() => {
             let ids = server.io.sockets.adapter.rooms.get(roomId);
 
             if (!ids) {
-                console.log("ok");
                 return;
             }
 
@@ -284,7 +280,7 @@ server.ready().then(() => {
                 socket.emit("round_finished");
             }
 
-            server.io.to(roomOrder?.order[round]).emit("to_draw");
+            server.io.to(roomOrder?.order[round]).emit("to_draw", newUserPrompt.url);
 
             roomOrder?.order.filter((el, idx) => idx !== round).forEach(el => {
                 server.io.to(el).emit("to_wait");
