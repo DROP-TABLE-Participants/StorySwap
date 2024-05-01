@@ -1,7 +1,7 @@
 <h1 align="center">Bulgaria Travel</h1>
 
 <p align = "center">
-    <img src="https://imgur.com/65kh22S" />
+    <img src="https://bultravel-1.vercel.app/bultravel-removebg-preview.png" />
 </p>
 
 
@@ -26,7 +26,7 @@ Daniel Todorov, Borislav Todorov, Theodore
 
 <h3><B>Webiste domain:</B></h3>
 
-<pre>https://bultravel-1.vercel.app)</pre>
+<pre>https://bultravel-1.vercel.app</pre>
 
 <hr>
 
