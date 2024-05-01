@@ -7,7 +7,7 @@
 
 
 ## 💻 About
-<h2 align="center">Bulgaria Travel</h2>
+<h2 align="center">Your journey planner for Bulgaria is here!</h2>
 
 ## ℹ️ Detailed information 
 <p align="center">
